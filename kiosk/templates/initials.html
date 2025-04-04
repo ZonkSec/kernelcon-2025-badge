@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="d-flex flex-column min-vh-100 justify-content-center align-items-center">
+        <div class="container">
+            <form action="/set_initials">
+              <div class="d-flex justify-content-center">
+              <label for="initials">Enter 3 character initials for scoreboard.</label>
+            </div>
+            <div class="d-flex justify-content-center">
+              <input type="text" id="initials" name="initials" placeholder="Enter initials" value="" style='font-size: 30px;'>
+            </div>
+            <br>
+            <div class="keyboard">
+                <div class="keyboard-row d-flex justify-content-center">
+                    <button type="button" onclick="add_char(this)" class="font-monospace btn btn-secondary btn-lg me-1" style="font-size: 200%">Q</button>
+                    <button type="button" onclick="add_char(this)" class="font-monospace btn btn-secondary btn-lg me-1" style="font-size: 200%">W</button>
+                    <button type="button" onclick="add_char(this)" class="font-monospace btn btn-secondary btn-lg me-1" style="font-size: 200%">E</button>
+                    <button type="button" onclick="add_char(this)" class="font-monospace btn btn-secondary btn-lg me-1" style="font-size: 200%">R</button>
+                    <button type="button" onclick="add_char(this)" class="font-monospace btn btn-secondary btn-lg me-1" style="font-size: 200%">T</button>
+                    <button type="button" onclick="add_char(this)" class="font-monospace btn btn-secondary btn-lg me-1" style="font-size: 200%">Y</button>
+                    <button type="button" onclick="add_char(this)" class="font-monospace btn btn-secondary btn-lg me-1" style="font-size: 200%">U</button>
+                    <button type="button" onclick="add_char(this)" class="font-monospace btn btn-secondary btn-lg me-1" style="font-size: 200%">I</button>
+                    <button type="button" onclick="add_char(this)" class="font-monospace btn btn-secondary btn-lg me-1" style="font-size: 200%">O</button>
+                    <button type="button" onclick="add_char(this)" class="font-monospace btn btn-secondary btn-lg me-1" style="font-size: 200%">P</button>
+                </div>
+                <div class="keyboard-row d-flex justify-content-center">
+                    <button type="button" onclick="add_char(this)" class="font-monospace btn btn-secondary btn-lg me-1" style="font-size: 200%">A</button>
+                    <button type="button" onclick="add_char(this)" class="font-monospace btn btn-secondary btn-lg me-1" style="font-size: 200%">S</button>
+                    <button type="button" onclick="add_char(this)" class="font-monospace btn btn-secondary btn-lg me-1" style="font-size: 200%">D</button>
+                    <button type="button" onclick="add_char(this)" class="font-monospace btn btn-secondary btn-lg me-1" style="font-size: 200%">F</button>
+                    <button type="button" onclick="add_char(this)" class="font-monospace btn btn-secondary btn-lg me-1" style="font-size: 200%">G</button>
+                    <button type="button" onclick="add_char(this)" class="font-monospace btn btn-secondary btn-lg me-1" style="font-size: 200%">H</button>
+                    <button type="button" onclick="add_char(this)" class="font-monospace btn btn-secondary btn-lg me-1" style="font-size: 200%">J</button>
+                    <button type="button" onclick="add_char(this)" class="font-monospace btn btn-secondary btn-lg me-1" style="font-size: 200%">K</button>
+                    <button type="button" onclick="add_char(this)" class="font-monospace btn btn-secondary btn-lg me-1" style="font-size: 200%">L</button>
+                </div>
+                <div class="keyboard-row d-flex justify-content-center">
+                    <button type="button" onclick="add_char(this)" class="font-monospace btn btn-secondary btn-lg me-1" style="font-size: 200%">Z</button>
+                    <button type="button" onclick="add_char(this)" class="font-monospace btn btn-secondary btn-lg me-1" style="font-size: 200%">X</button>
+                    <button type="button" onclick="add_char(this)" class="font-monospace btn btn-secondary btn-lg me-1" style="font-size: 200%">C</button>
+                    <button type="button" onclick="add_char(this)" class="font-monospace btn btn-secondary btn-lg me-1" style="font-size: 200%">V</button>
+                    <button type="button" onclick="add_char(this)" class="font-monospace btn btn-secondary btn-lg me-1" style="font-size: 200%">B</button>
+                    <button type="button" onclick="add_char(this)" class="font-monospace btn btn-secondary btn-lg me-1" style="font-size: 200%">N</button>
+                    <button type="button" onclick="add_char(this)" class="font-monospace btn btn-secondary btn-lg me-1" style="font-size: 200%">M</button>
+                </div><br>
+                <div class="d-flex justify-content-center">
+                  <button type="submit" class="btn btn-success me-2"  style="font-size: 150%" onclick="this.form.submit(); this.disabled=true;">Submit</button>
+                  <a class="btn btn-primary me-2" href="/"  style="font-size: 150%">Quit</a>
+                  <button type="button" onclick="back_char()" class="btn btn-danger me-2"  style="font-size: 150%">⌫</button>
+                </div>
+            </form>
+            </div>
+        </div>
+    </div>
+    <div class="toast-container position-fixed bottom-0 start-50 translate-middle-x p-3">
+      <div id="not3" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-body">
+          Initials need to be 3 characters long!
+        </div>
+      </div>
+    </div>
+    <div class="toast-container position-fixed bottom-0 start-50 translate-middle-x p-3">
+      <div id="taken" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-body">
+          Those initials are already taken. Try again!
+        </div>
+      </div>
+    </div>
+    <script>
+      function add_char(z) {
+        document.getElementById("initials").value += z.innerHTML;
+      }
+      function back_char() {
+        document.getElementById("initials").value = document.getElementById("initials").value.slice(0, -1);
+      }
+  
+      function handleGetParamError() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const errorParam = urlParams.get('error');
+  
+        if (errorParam === 'not3') {
+          const toastLiveExample = document.getElementById('not3')
+          const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
+          toastBootstrap.show()
+        } 
+        if (errorParam === 'taken') {
+          const toastLiveExample = document.getElementById('taken')
+          const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
+          toastBootstrap.show()
+        } 
+      }
+  
+  
+    window.addEventListener('load', handleGetParamError);
+    setTimeout(function() {
+          window.location.replace('/');
+      }, 30000);
+      </script>
+    {% endblock %}

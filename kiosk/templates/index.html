@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="d-flex flex-column min-vh-100 justify-content-center align-items-center">
+        <img src="/static/kc.png" width="600">
+        {% if offical_kiosk %}
+        <p style="font-size: 200%; font-weight: 300; letter-spacing: .6rem; font-style: italic">LIVE RACING GRID</p>
+        <p>Power on your badge, insert it into the dock, then...</p>
+        <a class="btn btn-success" href="loading" role="button" style="font-size: 200%">Touch to Race</a>
+        {% else %}
+        <p style="font-size: 200%; font-weight: 300; letter-spacing: .6rem; font-style: italic">BADGE SCORE SYNC</p>
+        <p>Power on your badge, insert it into the dock, then...</p>
+        <a class="btn btn-success" href="loading" role="button" style="font-size: 200%">Touch to Synchronize</a>
+        {% endif %}
+    </div>
+{% endblock %}

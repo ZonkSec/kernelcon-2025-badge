@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="d-flex flex-column min-vh-100 justify-content-center align-items-center">
+      <h2>⚑ Thanks for racing {{data['initials']}}! ⚑</h2>
+      <p>Here are your <i>Live</i> results:</p>
+        <div class="row align-items-start w-75">
+          <div class="col">
+            <h3><i><b>This Session:</b></i></h3>
+            <hr>
+            <p><strong>Highscore:</strong> {{data['deep_official_hs']}}</p>
+            <p><strong>Wins:</strong> {{data['deep_official_win_count']}}</p>
+            <p><strong>Fails:</strong> {{data['deep_official_fail_count']}}</p>
+          </div>
+          <div class="col">
+            <h3><i><b>All-Time:</b></i></h3>
+            <hr>
+            <p><strong>Highscore:</strong> {{data['cumulative_deep_official_hs'] | int}}</p>
+            <p><strong>Rank:</strong> {% if data['deep_official_hs_rank'] is not none %}#{% endif %}{{data['deep_official_hs_rank']}}</p>
+            <p><strong>Wins:</strong> {{data['cumulative_deep_official_win_count']}}</p>
+            <p><strong>Fails:</strong> {{data['cumulative_deep_official_fail_count']}}</p>
+            <p><strong>Win Ratio:</strong> {{official_win_ratio}}%</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-auto">
+            <a class="btn btn-success" href="/" style="font-size: 150%">Done</a>
+          </div>
+          <div class="col-auto">
+            <a class="btn btn-secondary" href="/initials" style="font-size: 150%">Change Initials</a>
+          </div>
+          <div class="col-auto">
+            <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#myModal" style="font-size: 150%">Side Quests QR</button>
+          </div>
+        </div>
+
+    </div>
+    <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-body">
+            <div class="text-center">
+              <p style="font-size: 125%">For more information about Side Quests, vist side-quests.kernelcon.org!</p>
+              <img src="/qr.png" width="200" height="200">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal" style="font-size: 150%">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      setTimeout(function() {
+          window.location.replace('/');
+      }, 30000);
+  </script>
+
+{% endblock %}

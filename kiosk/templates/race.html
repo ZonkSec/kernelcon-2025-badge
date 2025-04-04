@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="d-flex flex-column min-vh-100 justify-content-center align-items-center">
+    <h1>Welcome to the racing grid {{data['initials']}}!</h1>
+    <p>You have 3 attempts in this session. 60s per attempt. Clock starts as soon as you hit "GO!".</p>
+    <p>There is no limit to the amount of sessions, but your turn is over after the 3 attempts.</p>
+    <h3>Are you ready to race?</h3>
+    <div class="row justify-content-center" style="width: 250px">
+      <div class="col">
+        <div class="row justify-content-center">
+          <button id="run_race" class="btn btn-success" style="font-size: 250%; margin: 10px;" onclick="run_race()">GO!</button>
+          <div id="race_spinner" class="spinner-grow text-success me-2" role="status" style="display: none; height: 50px; width: 50px; margin: 22px;"></div>
+          <p id="we_be_running" style="display: none;">Error: A Race is already running. Wait 60s for system to reset.</p>
+        </div>
+        <div class="row justify-content-center">
+            <button id="quit" class="btn btn-danger" onclick="this.disabled=true; document.getElementById('run_race').disabled=true; window.location.href='/offical_complete';" style="font-size: 150%; padding: 10px; ">Quit</button>
+        </div>
+      </div>
+  </div>
+</div>
+<script>
+let attempts = 0
+function run_race(url) {
+    const button = document.getElementById("run_race")
+    const race_spinner =  document.getElementById("race_spinner")
+    button.innerHTML = "Try Again?";
+    button.style.display = "none";
+    race_spinner.style.display = "block";
+    fetch('run_race', { signal: AbortSignal.timeout(120000) }) 
+    .then(response => response.json())
+    .then(data => {
+      
+      if (data.outcome == "fail" || data.outcome == "win"){
+        attempts = attempts + 1
+      }
+      if (attempts >= 3 || data.outcome == "out_of_attempts"){
+        console.log("out of attempts");
+        document.getElementById('run_race').disabled=true;
+        document.getElementById('quit').disabled=true;
+        window.location.replace("/offical_complete") 
+      } else {
+        button.style.display = "block";
+        race_spinner.style.display = "none";
+      }
+      if (data.outcome == "we_be_running"){
+        button.style.display = "none";
+        we_be_running.style.display = "block";
+      }
+      console.log(data.outcome);
+    })
+    .catch(error => {
+      button.style.display = "block";
+      race_spinner.style.display = "none";
+      console.error('There has been a problem with your fetch operation:', error);
+    });
+}
+</script>
+
+{% endblock %}
